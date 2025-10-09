@@ -11,7 +11,7 @@
     .sidebar {
       height: 100vh;
       background-color: #ffffffff;
-      min-width: 270px;
+      min-width: 250px;
       border-right: 2px solid #ddd;
     }
     .sidebar-top {
@@ -64,7 +64,7 @@
     </div>
 
    <nav class="nav flex-column mt-3 px-3">
-      <a class="nav-link" href="/admin"><i class="bi bi-grid-fill"></i> Dashboard</a>
+      <a class="nav-link"  href="{{ route('dashboard') }}"><i class="bi bi-grid-fill"></i> Dashboard</a>
       <a class="nav-link" href="/admin/elections"><i class="bi bi-check2-circle"></i> Elections</a>
       <a class="nav-link" href="/admin/candidates"><i class="bi bi-people-fill"></i> Candidates</a>
       <a class="nav-link" href="/admin/positions"><i class="bi bi-person-badge-fill"></i> Position</a>
@@ -74,8 +74,12 @@
     </nav>
 
 
-    <div class="mt-auto px-3 pb-3">
-      <button class="btn btn-primary w-100"><i class="bi bi-box-arrow-right"></i> Logout</button>
+    <div class="mt-auto px-4 pb-5">
+      <form action="{{ url('logout') }}" method="POST" class="d-inline">
+    @csrf
+    <button type="submit" class="btn btn-danger w-100"><i class="bi bi-box-arrow-right"></i> Logout</button>
+      </form>
+    
     </div>
   </div>
 
@@ -85,7 +89,6 @@
     @yield('content')
   </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

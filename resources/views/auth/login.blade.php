@@ -19,18 +19,39 @@
                 <div class="d-lg-none text-center mb-4">
                      <img src="{{ asset('images/PEDRO_ORATA_NHS_LOGO.png') }}" alt="Pedro Orata Logo" class="mt-3" style="width:100px; height:100px; object-fit: contain;">
                 </div>
-                <h1 class="fw-bold mb-5" >Login into your account.</h1>
-                <form action="/login" method="POST">
+                <h1 class="fw-bold mb-5 " >Login into your account.</h1>
+
+
+                <!-- Display error message if any -->
+                 @if ($errors->any())
+                    <div class="alert alert-danger">{{ $errors->first() }}</div>
+                @endif
+                
+                <!-- Display success message logout-->
+                @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                
+                <!--Login form -->
+                <form action="{{ url('/login') }}" method="POST">
+                    @csrf
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
+
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <a href="/admin" class="btn btn-primary" >Login</a>
+
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
                 </form>
+
             </div>
         </div>
     </div>

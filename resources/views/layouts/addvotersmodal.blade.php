@@ -1,19 +1,10 @@
-@extends('layouts.admin')
+<!-- Add Voter Button -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importVoterModal">
+  Add Voter
+</button>
 
-@section('content')
-  <h3 class="mb-4 fw-bold">Voters Management</h3>
-  <p>This is where you will manage voters.</p>
-   <div class="d-flex gap-3 mb-4">
-      <div class="card-blue p-3 flex-fill">
-        <small>Total Voters</small>
-        <div class="metric-number">{{ $data['totalVoters'] }}</div>
-      </div>
-    </div>
-  <!-- Import Voter Modal -->
-      <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#importVoterModal"><i class="bi bi-plus-lg"></i>
-        Add Voter
-      </button>
-      <div class="modal fade" id="importVoterModal" tabindex="-1" aria-labelledby="importVoterModalLabel" aria-hidden="true">
+<!-- Import Voter Modal -->
+<div class="modal fade" id="importVoterModal" tabindex="-1" aria-labelledby="importVoterModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
 
@@ -43,34 +34,6 @@
   </div>
 </div>
 
-<!-- Table -->
-    <table class="table table-responsive table-bordered table-striped">
-      <thead class="table">
-        <tr>
-          <th>Voter ID</th>
-          <th>Name</th>
-          <th>Grade Level</th>
-          <th>Section</th>
-        </tr>
-      </thead>
-      <tbody id="voterTable">
-        <!-- Dummy Data -->
-        <tr>
-          <td>{{ $data['id'] }}</td>
-          <td>{{ $data['name'] }}</td>
-          <td>{{ $data['grade'] }}</td>
-          <td>{{ $data['section'] }}</td>
-        </tr>
-        <tr>
-          <td>{{ $data['id2'] }}</td>
-          <td>{{ $data['name2'] }}</td>
-          <td>{{ $data['grade2'] }}</td>
-          <td>{{ $data['section2'] }}</td>
-        </tr>
-      </tbody>
-</table>
-
-
 <script>
   function importVoter() {
     const fileInput = document.getElementById("fileUpload");
@@ -88,4 +51,3 @@
 
 <!-- Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-@endsection
