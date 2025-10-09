@@ -40,7 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'student' => [
+            'driver' => 'session',
+            'provider' => 'voters',
+        ],
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -65,11 +70,18 @@ return [
             'model' => App\Models\Admin::class, // use Admin model
         ],
 
+        'voters' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class, // use Student model
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
     ],
+
+
 
     /*
     |--------------------------------------------------------------------------

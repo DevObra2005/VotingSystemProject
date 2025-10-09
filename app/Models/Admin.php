@@ -14,7 +14,9 @@ class Admin extends Authenticatable
 
     // 👇 which columns can be mass assigned
     protected $fillable = ['name', 'email', 'password'];
+    
 
-    // 👇 if your table does not have timestamps (created_at, updated_at)
-    public $timestamps = false;
+     protected $hidden = [
+        'password',
+     ];
 }

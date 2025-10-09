@@ -14,25 +14,33 @@ class AuthController extends Controller
     }
 
     // Handle the login request
-    public function login(Request $request)
-    {
-        // Validate the input fields
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+    public function login(Request $request){
 
-        // Try to log in the user
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // prevent session fixation
-            return redirect('/dashboard'); // redirect to admin dashboard
-        }
+    // Validate the input fields
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-        // If login fails, return back with error
-        return back()->withErrors([
-            'email' => 'Invalid email or password.',
-        ]);
+    //  login as admin
+    if (Auth::guard('web')->attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect()->route('dashboard');
     }
+
+    // login as student
+    if (Auth::guard('student')->attempt($credentials)) {
+    $request->session()->regenerate();
+    return redirect()->route('student.home');
+    }
+
+    
+    // If both fail
+    return back()->withErrors([
+        'email' => 'Invalid email or password.',
+    ]);
+    }
+
 
     // Show the dashboard (only for logged-in users)
     public function dashboard()
@@ -42,7 +50,7 @@ class AuthController extends Controller
             'totalVoters' => 500,
             'activeElection' => 1,
             'completedElection' => 2,
-            'upcoming' => 'School Council 2025'
+            'upcoming' => 'SSLG Election 2025'
         ];
 
         return view('adminpanel.dashboard', compact('data'));
@@ -50,11 +58,19 @@ class AuthController extends Controller
 
     // Logout the user
     public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/login')->with('success', 'Successfully logged out!');
+{
+    if (Auth::guard('student')->check()) {
+        Auth::guard('student')->logout();
     }
+
+    if (Auth::guard('web')->check()) {
+        Auth::guard('web')->logout();
+    }
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/login')->with('success', 'Successfully logged out!');
+}
+
 }
