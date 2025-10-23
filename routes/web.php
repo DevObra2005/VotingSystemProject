@@ -1,7 +1,8 @@
- <?php
+<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StudentController;
 
 // Landing Page for Students
 Route::get('/', function () {
@@ -13,13 +14,22 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// ✅ Admin Dashboard (Only for Admins)
-Route::middleware('auth:web')->group(function () {
-    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+// Student Dashboard Routes (AUTH Not Protected Temporarily)
+Route::get('/student/dashboard', [StudentController::class, 'electionTitle'])
+    ->name('student.election_title');
+Route::view('/student/cast_votes', 'student.cast_votes')
+    ->name('student.cast_votes');
 
-    Route::view('/admin/elections', 'adminpanel.elections');
-    Route::view('/admin/candidates', 'adminpanel.candidates');
-    Route::view('/admin/positions', 'adminpanel.positions');
+// Admin Dashboard Routes (Protected by auth:web(admin))
+Route::middleware('auth:web')->group(function () {
+    Route::get('/dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
+    // Admin Dashboard Routes
+    Route::view('/admin/elections', 'adminpanel.elections')
+        ->name('adminpanel.elections');
+    Route::view('/admin/candidates', 'adminpanel.candidates')
+        ->name('adminpanel.candidates');
+    Route::view('/admin/positions', 'adminpanel.positions')
+        ->name('adminpanel.positions');
     Route::get('/admin/users', function () {
         $data = [
             'totalVoters' => 1200,
@@ -34,15 +44,10 @@ Route::middleware('auth:web')->group(function () {
         ];
         return view('adminpanel.voters', compact('data'));
     });
-    Route::view('/admin/results', 'adminpanel.results');
-    Route::view('/admin/logs', 'adminpanel.logs');
+    Route::view('/admin/results', 'adminpanel.results')
+        ->name('adminpanel.results');
+    Route::view('/admin/logs', 'adminpanel.logs')
+        ->name('adminpanel.logs');
 });
 
-// ✅ Student Panel (Only for Students)
-Route::middleware('auth:student')->group(function () {
-    Route::get('/student/home', function () {
-        return view('student.home');
-    })->name('student.home');
-});
-
-
+?>

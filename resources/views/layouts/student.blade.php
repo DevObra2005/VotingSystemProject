@@ -59,8 +59,8 @@
             
         </div>
     </nav>
+    <div class="container mt-4">
+        @yield('content')
 
-    <h2>Welcome to Student Voting Panel</h2>
-    <p>You are logged in as {{ Auth::guard('student')->user()->name }}</p>
 </body>
 </html>
